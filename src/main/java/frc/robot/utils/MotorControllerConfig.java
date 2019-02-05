@@ -12,10 +12,10 @@ import frc.robot.MultiSpeedController;
 public class MotorControllerConfig {
 
 	public void init() {
-		RobotMap.robotLeftTalon = new TalonSRX(23);
-		RobotMap.robotLeftVictor = new VictorSPX(20);
-		RobotMap.robotRightTalon = new TalonSRX(22);
-		RobotMap.robotRightVictor = new VictorSPX(21);
+		RobotMap.robotLeftTalon = new TalonSRX(RobotMap.LEFT_TALON_PORT);
+		RobotMap.robotLeftVictor = new VictorSPX(RobotMap.LEFT_VICTOR_PORT);
+		RobotMap.robotRightTalon = new TalonSRX(RobotMap.RIGHT_TALON_PORT);
+		RobotMap.robotRightVictor = new VictorSPX(RobotMap.RIGHT_VICTOR_PORT);
 
 		/* Factory default hardware to prevent unexpected behavior */
 		RobotMap.robotLeftTalon.configFactoryDefault();

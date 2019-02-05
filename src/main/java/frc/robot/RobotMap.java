@@ -23,6 +23,14 @@ public class RobotMap {
 	public static SpeedController leftDrive;
 	public static SpeedController rightDrive;
 
+	// CAN bus IDs
+	public static final int ARM_TALON_PORT = 11;
+	public static final int INTAKE_VICTOR_PORT = 12;
+	public static final int LEFT_TALON_PORT = 23;
+	public static final int LEFT_VICTOR_PORT = 20;
+	public static final int RIGHT_TALON_PORT = 22;
+	public static final int RIGHT_VICTOR_PORT = 21;
+
 	public static WPI_TalonSRX armTalon;
 	public static WPI_VictorSPX intakeVictor;
 
@@ -31,8 +39,8 @@ public class RobotMap {
 	public static void init() {
 		motorControllerConfig.init();
 
-		armTalon = new WPI_TalonSRX(11);
-		intakeVictor = new WPI_VictorSPX(12);
+		armTalon = new WPI_TalonSRX(ARM_TALON_PORT);
+		intakeVictor = new WPI_VictorSPX(INTAKE_VICTOR_PORT);
 
 		motorControllerConfig.initJoystickDrive();
 	}
