@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -21,19 +22,27 @@ public class RobotMap {
 	public static DifferentialDrive myRobot;
 	public static SpeedController leftDrive;
 	public static SpeedController rightDrive;
-	
+	public static WPI_TalonSRX armTalon;
+	public static WPI_VictorSPX intakeVictor;
+
 	public static void init() {
 
 		robotLeftTalon = new WPI_TalonSRX(23);
+		robotLeftTalon.setInverted(true);
 		robotLeftVictor = new WPI_VictorSPX(20);
-		robotLeftVictor.follow(robotLeftTalon,FollowerType.PercentOutput);
+		robotLeftVictor.setInverted(true);
+		robotLeftVictor.follow(robotLeftTalon);
 		robotRightTalon = new WPI_TalonSRX(22);
+		robotRightTalon.setInverted(true);
 		robotRightVictor = new WPI_VictorSPX(21);
+		robotRightVictor.setInverted(true);
 		robotRightVictor.follow(robotRightTalon,FollowerType.PercentOutput);
 		leftDrive = new MultiSpeedController(robotLeftTalon, robotLeftTalon);
 		rightDrive = new MultiSpeedController(robotRightTalon, robotRightTalon);
-		//leftDrive.setInverted(true);
-		//rightDrive.setInverted(true);
 		myRobot = new DifferentialDrive(leftDrive, rightDrive);
+
+		armTalon = new WPI_TalonSRX(11);
+		intakeVictor = new WPI_VictorSPX(12);
 	}
+
 }
