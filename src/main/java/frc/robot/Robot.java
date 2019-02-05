@@ -28,6 +28,9 @@ public class Robot extends TimedRobot {
 
 	private Preferences prefs;
 
+	/* Used to build string throughout loop */
+	StringBuilder talonOutputBuffer = new StringBuilder();
+
 
 	public static double getRobotSpeed(){
 		return robotSpeed;
@@ -127,12 +130,67 @@ public class Robot extends TimedRobot {
 		led.setvalue("green",newvalue);	
 	}
 
+	private static int periodicLoops = 0;
+
 	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
 	public void testPeriodic() {
-			//oi.setXBoxRumble(1);
+		/* Get gamepad axis - forward stick is positive */
+		double leftYstick = -1.0 * oi.xBoxController.getRawAxis(1);
+		if (Math.abs(leftYstick) < 0.10) { leftYstick = 0;} /* deadband 10% */
+
+		/* Get current Talon SRX motor output */
+		double leftMotorOutput = RobotMap.robotLeftTalon.getMotorOutputPercent();
+		double rightMotorOutput = RobotMap.robotRightTalon.getMotorOutputPercent();
+
+		/* Prepare line to print */
+		talonOutputBuffer.append("\tOutLeft%:");
+		talonOutputBuffer.append(leftMotorOutput);
+		talonOutputBuffer.append("\tOutRight%:");
+		talonOutputBuffer.append(rightMotorOutput);
+		talonOutputBuffer.append("\tVelLeft:");
+		talonOutputBuffer.append(RobotMap.robotLeftTalon.getSelectedSensorVelocity(Constants.kPIDLoopIdx));
+		talonOutputBuffer.append("\tVelRight:");
+		talonOutputBuffer.append(RobotMap.robotRightTalon.getSelectedSensorVelocity(Constants.kPIDLoopIdx));
+
+		/**
+		 * Peform Motion Magic when Button 5 is held,
+		 * else run Percent Output, which can be used to confirm hardware setup.
+		 */
+		if (oi.xBoxController.getRawButton(5)) {
+			/* Motion Magic */ 
+			
+			/*4096 ticks/rev * 10 Rotations in either direction */
+			double targetPos = leftYstick * 4096 * 10.0;
+			RobotMap.robotLeftTalon.set(ControlMode.MotionMagic, targetPos);
+			RobotMap.robotRightTalon.set(ControlMode.MotionMagic, targetPos);
+
+			/* Append more signals to print when in speed mode */
+			talonOutputBuffer.append("\terrLeft:");
+			talonOutputBuffer.append(RobotMap.robotLeftTalon.getClosedLoopError(Constants.kPIDLoopIdx));
+			talonOutputBuffer.append("\terrRight:");
+			talonOutputBuffer.append(RobotMap.robotRightTalon.getClosedLoopError(Constants.kPIDLoopIdx));
+			talonOutputBuffer.append("\ttrg:");
+			talonOutputBuffer.append(targetPos);
+		} else {
+			/* Percent Output */
+
+			RobotMap.robotLeftTalon.set(ControlMode.PercentOutput, leftYstick);
+			RobotMap.robotRightTalon.set(ControlMode.PercentOutput, leftYstick);
+		}
+
+		/* Instrumentation */
+		Instrum.Process(RobotMap.robotLeftTalon, "Left");	
+		Instrum.Process(RobotMap.robotRightTalon, "Right");	
 		
+		/* Periodically print to console */
+		if (++_loops >= 20) {
+			_loops = 0;
+			System.out.println(talonOutputBuffer.toString());
+		}
+		/* Reset created string for next loop */
+		talonOutputBuffer.setLength(0);
 	}	
 }

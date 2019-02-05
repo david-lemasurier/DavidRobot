@@ -3,8 +3,8 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.utils.MotorControllerConfig;
 
 
 /**
@@ -15,34 +15,28 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  */
 public class RobotMap {
 
-	public static WPI_TalonSRX robotLeftTalon;
-	public static WPI_VictorSPX robotLeftVictor;
-	public static WPI_TalonSRX robotRightTalon;
-	public static WPI_VictorSPX robotRightVictor;
+	public static TalonSRX robotLeftTalon;
+	public static VictorSPX robotLeftVictor;
+	public static TalonSRX robotRightTalon;
+	public static VictorSPX robotRightVictor;
 	public static DifferentialDrive myRobot;
 	public static SpeedController leftDrive;
 	public static SpeedController rightDrive;
+
 	public static WPI_TalonSRX armTalon;
 	public static WPI_VictorSPX intakeVictor;
 
-	public static void init() {
+	public static MotorControllerConfig motorControllerConfig = new MotorControllerConfig();
 
-		robotLeftTalon = new WPI_TalonSRX(23);
-		robotLeftTalon.setInverted(true);
-		robotLeftVictor = new WPI_VictorSPX(20);
-		robotLeftVictor.setInverted(true);
-		robotLeftVictor.follow(robotLeftTalon);
-		robotRightTalon = new WPI_TalonSRX(22);
-		robotRightTalon.setInverted(true);
-		robotRightVictor = new WPI_VictorSPX(21);
-		robotRightVictor.setInverted(true);
-		robotRightVictor.follow(robotRightTalon,FollowerType.PercentOutput);
-		leftDrive = new MultiSpeedController(robotLeftTalon, robotLeftTalon);
-		rightDrive = new MultiSpeedController(robotRightTalon, robotRightTalon);
-		myRobot = new DifferentialDrive(leftDrive, rightDrive);
+	public static void init() {
+		motorControllerConfig.init();
 
 		armTalon = new WPI_TalonSRX(11);
 		intakeVictor = new WPI_VictorSPX(12);
+
+		motorControllerConfig.initJoystickDrive();
 	}
 
 }
+
+
