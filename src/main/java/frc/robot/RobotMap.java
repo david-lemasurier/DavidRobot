@@ -3,8 +3,11 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.SpeedController;
 import frc.robot.utils.MotorControllerConfig;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 
 /**
@@ -42,7 +45,10 @@ public class RobotMap {
 		armTalon = new WPI_TalonSRX(ARM_TALON_PORT);
 		intakeVictor = new WPI_VictorSPX(INTAKE_VICTOR_PORT);
 
-		motorControllerConfig.initJoystickDrive();
+		// leftDrive = new MultiSpeedController(robotLeftTalon, robotLeftTalon);
+		// rightDrive = new MultiSpeedController(robotRightTalon, robotRightTalon);
+		// myRobot = new DifferentialDrive(leftDrive, rightDrive);
+
 	}
 
 }

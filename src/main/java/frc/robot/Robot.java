@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.Preferences;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+import frc.robot.utils.*;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 
 
@@ -25,6 +27,7 @@ public class Robot extends TimedRobot {
 	public static CompressorSubsystem compSub;
 	private ArmSubsystem armSubsystem;
 	private InTakeSubsystem intakeSubsystem;
+
 
 	private Preferences prefs;
 
@@ -186,8 +189,8 @@ public class Robot extends TimedRobot {
 		Instrum.Process(RobotMap.robotRightTalon, "Right");	
 		
 		/* Periodically print to console */
-		if (++_loops >= 20) {
-			_loops = 0;
+		if (++periodicLoops >= 20) {
+			periodicLoops = 0;
 			System.out.println(talonOutputBuffer.toString());
 		}
 		/* Reset created string for next loop */

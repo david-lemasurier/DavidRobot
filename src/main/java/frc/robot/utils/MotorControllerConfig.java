@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
-import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import frc.robot.RobotMap;
 import frc.robot.MultiSpeedController;
@@ -88,11 +88,5 @@ public class MotorControllerConfig {
 		RobotMap.robotRightTalon.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 
 	}
-
-	public void initJoystickDrive() {
-		RobotMap.leftDrive = new MultiSpeedController(RobotMap.robotLeftTalon, RobotMap.robotLeftTalon);
-		RobotMap.rightDrive = new MultiSpeedController(RobotMap.robotRightTalon, RobotMap.robotRightTalon);
-		RobotMap.myRobot = new DifferentialDrive(leftDrive, rightDrive);
-
-	}
 }
+
